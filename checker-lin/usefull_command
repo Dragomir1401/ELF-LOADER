@@ -1,0 +1,1 @@
+LD_LIBRARY_PATH=. ./so_exec ../checker-lin/_test/inputs/hello
