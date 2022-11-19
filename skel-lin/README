@@ -1,0 +1,103 @@
+______________________________
+|                            |
+|   Copyright                |
+|      Dragomir Andrei 2022  |
+|                            |
+|____________________________|
+
+---------------------------------------------------------------------
+Nume: Dragomir Andrei
+Grupa: 322CA
+
+OPERATING SYSTEMS
+
+----------------------------------------------------------------------------
+-----------------------------ELF LOADER-------------------------------------
+---------------------------------------------------------------------------- 
+
+    Project contains:
+
+    - loader folder - where the actual loading takes place
+    - Makefile
+    - README
+    - auxiliary used file - parser, exec folder, etc
+
+
+----------------------------------------------------------------------------
+
+____________Description___________
+
+
+    The project implements a loader of ELF files in Linux. ELF files (Executable 
+and Linkable Format) are a common standard file format for executable files, 
+object code, shared libraries, and core dumps.
+
+    The program loads the ELF file memory page with memory page using a demand
+paging mechanism (page will be loaded just when it is needed or demanded).
+Loader is capable of handling static executable files.
+
+
+-----------------------------------------------------------------------------
+
+
+
+------------------------------------------------------------------------------
+
+____________Implementation____________
+
+
+    The segv_handler function is the main point of treating SIGSEGV signals
+that happen with page faults. The function has to decide if it uses a standard
+handler which basically uses normal segmentation fault error or mapping the page
+in memory, copying data in that page segment and then changing the permissions
+based on what memory subsection is targeted.
+
+    First the loader check the autenticity of the SIGSEGV signal then proceeds
+to find the memory segment where it happened. If it did not happen in a given
+memory segment the loader uses the old sigv handler.
+
+    Then the program checks if the page was already mapped and if it is we use
+the old handler because it means the program is trying to open a memory zone
+with different access rights.
+
+    We find the nearest start of a memory page below the SIGSEGV point and map
+it with MAP_FIXED | MAP_SHARED | MAP_ANONYMOUS flags and PROT_WRITE | PROT_READ
+access type. Then we find how much data we have to copy in the new mapped region
+and after reading in that memory page we change protection to given permissions.
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+------------------------------------------------------------------------------
+
+_____________Comments_____________
+
+    
+    The implementation could have been done faster and better if information 
+about how paging is handled was more accesible. There could be perhaps a 
+shorter close Linux API version of the sigv_handler but this way has a 
+better logic behind with extra error checks.
+
+    The project helped me learn how to use Linux API for workind with address
+spaces, virtual memory and demand paging - a very confusing world but fascinating
+at least. I also learned an example of how the operating system handles 
+memory exceptions and how it loads files in memory.
+
+------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------
+
+Resources:
+
+https://ocw.cs.pub.ro/courses/so/laboratoare/laborator-06
+https://ocw.cs.pub.ro/courses/so/laboratoare/laborator-05
+https://ocw.cs.pub.ro/courses/so/teme/tema-3
+
+
+-----------------------------------------------------------------------------

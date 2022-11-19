@@ -91,6 +91,7 @@ static void segv_handler(int signum, siginfo_t *info, void *context)
 
 	// alloc memory for the nearest page down in memory	with FIXED, SHARED and ANONYMOUS flags
 	void *result_mapped_page;
+
 	result_mapped_page = mmap((void *)nearest_mem_page, page_size, mmap_prots, mmap_flags, -1, 0);
 
 	// put 1 in the array to know if we will try to map the same page
@@ -98,7 +99,6 @@ static void segv_handler(int signum, siginfo_t *info, void *context)
 
 	if (result_mapped_page == MAP_FAILED)
 		exit(ERROR);
-	
 
 	// place cursor in the file at the beginning of the mapped mem page
 	int seek_code = lseek(file_descriptor, offset + no_of_nearest_page * page_size, SEEK_SET);
