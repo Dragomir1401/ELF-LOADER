@@ -85,11 +85,20 @@ better logic behind with extra error checks.
     The project helped me learn how to use Linux API for workind with address
 spaces, virtual memory and demand paging - a very confusing world but fascinating
 at least. I also learned an example of how the operating system handles 
-memory exceptions and how it loads files in memory.
+memory exceptions and how it loads files in memory. In the end I learned some
+things after I figured out what specifically has to be done.
 
 ------------------------------------------------------------------------------
 
+______________How to run it_____________
 
+    make
+- creates the libso_loader.so shared object
+
+First we need a copy of the .so file in the checker or a symbolic link to it
+
+    make -f Makefile.checker or ./run_all.sh from the checker folder
+- use the shared library on ELF files from checker
 
 -----------------------------------------------------------------------------
 
